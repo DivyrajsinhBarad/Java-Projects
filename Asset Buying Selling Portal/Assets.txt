@@ -1,0 +1,14 @@
+Asset id : 14
+Seller id : 9
+Asset Type : villa
+Asset Location : up
+Asset Owner : yogi
+Asset price : 1.358024679E8
+Asset Detail : ertyui
+Asset id : 17
+Seller id : 12
+Asset Type : Farm House
+Asset Location : Talaja
+Asset Owner : Jay Desai
+Asset price : 1.32E9
+Asset Detail : This is Very Very.....Something

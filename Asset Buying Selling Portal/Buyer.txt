@@ -1,0 +1,10 @@
+
+Buyer id : 998
+Asset id : 998
+Byuer Name : Mitali Vachhani
+Asset price : 1.0E8
+
+Buyer id : 999
+Asset id : 999
+Byuer Name : Hiral Parekh
+Asset price : 5.0E7

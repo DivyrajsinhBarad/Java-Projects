@@ -1,0 +1,16 @@
+
+Asset id : 998
+Seller id : 998
+Old Owner name : Shah Khushi
+Buyer id : 101
+New Owner name : Mitali Vachhani
+Asset Price : 1.0E8
+Profit : 1.0E7
+
+Asset id : 999
+Seller id : 999
+Old Owner name : Sahil Agrawat
+Buyer id : 102
+New Owner name : Hiral Parekh
+Asset Price : 5.0E7
+Profit : 5000000.0

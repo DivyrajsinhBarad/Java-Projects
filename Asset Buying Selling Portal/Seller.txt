@@ -1,0 +1,20 @@
+
+Buyer id : 1001
+Asset id : Divyrajsinh Barad
+Byuer Name : divy1234
+
+Buyer id : 1002
+Asset id : Jay Desai
+Byuer Name : jay123
+
+Buyer id : 1003
+Asset id : Yash Patel
+Byuer Name : yash123
+
+Buyer id : 1004
+Asset id : Vatsal Pandya
+Byuer Name : vatsal123
+
+Buyer id : 1005
+Asset id : Bhavy Nayak
+Byuer Name : bhavy123
