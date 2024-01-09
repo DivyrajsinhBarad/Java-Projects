@@ -1,250 +1,204 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Contact {
-    String phoneNumber;
-    String fullName;
-    int age;
-    String gender;
-    String address;
-    Contact next;
-
-    // Created a NODE named as CONTACT
-    public Contact(String phoneNumber, String fullName, int age, String gender, String address) {
-        this.phoneNumber = phoneNumber;
-        this.fullName = fullName;
-        this.age = age;
-        this.gender = gender;
-        this.address = address;
-        this.next = null;
-    }
-}
-
-class ContactList {
-    private Contact head;
-
-    public ContactList() {
-        head = null;
-    }
-
-    // Add Contact --> Add node at last of singly linked list
-    public void addContact(String phoneNumber, String fullName, int age, String gender, String address) {
-        Contact newContact = new Contact(phoneNumber, fullName, age, gender, address);
-        if (head == null) {
-            head = newContact;
-        } else {
-            Contact current = head;
-            while (current.next != null) {
-                current = current.next;
-            }
-            current.next = newContact;
-        }
-    }
-
-    // Delete Contact --> Delete a particular node from singly linked list
-    public void deleteContact(String input) {
-        Contact current = head;
-        Contact prev = null;
-        boolean found = false;
-
-        while (current != null) {
-            if (current.phoneNumber.equals(input) || current.fullName.equals(input)) {
-                found = true;
-                break;
-            }
-            prev = current;
-            current = current.next;
-        }
-
-        if (found) {
-            if (prev != null) {
-                prev.next = current.next;
-            } else {
-                head = current.next;
-            }
-            System.out.println("Contact deleted successfully.");
-        } else {
-            System.out.println("No such contact found.");
-        }
-    }
-
-    // Search a Contact --> Either by name of person or by phone number
-    public void searchContact(String input) {
-        Contact current = head;
-        boolean found = false;
-
-        while (current != null) {
-            if (current.phoneNumber.equals(input) || current.fullName.equals(input)) {
-                found = true;
-                System.out.println("Phone Number: " + current.phoneNumber);
-                System.out.println("Full Name: " + current.fullName);
-                System.out.println("Age: " + current.age);
-                System.out.println("Gender: " + current.gender);
-                System.out.println("Address: " + current.address);
-                break;
-            }
-            current = current.next;
-        }
-
-        if (!found) {
-            System.out.println("No such contact found.");
-        }
-    }
-
-    // Replace the new contact number by old
-    public void replaceContactNumber(String oldNumber, String newNumber) {
-        Contact current = head;
-        boolean found = false;
-
-        while (current != null) {
-            if (current.phoneNumber.equals(oldNumber)) {
-                found = true;
-                current.phoneNumber = newNumber;
-                System.out.println("Contact number replaced successfully.");
-                break;
-            }
-            current = current.next;
-        }
-
-        if (!found) {
-            System.out.println("No such contact found.");
-        }
-    }
-
-    // Edit the information for the current contact number
-    public void editContactInformation(String phoneNumber, String newPhoneNumber, String newFullName, int newAge,
-            String newGender, String newAddress) {
-        Contact current = head;
-        boolean found = false;
-
-        while (current != null) {
-            if (current.phoneNumber.equals(phoneNumber)) {
-                found = true;
-                current.phoneNumber = newPhoneNumber;
-                current.fullName = newFullName;
-                current.age = newAge;
-                current.gender = newGender;
-                current.address = newAddress;
-                System.out.println("Contact information updated successfully.");
-                break;
-            }
-            current = current.next;
-        }
-
-        if (!found) {
-            System.out.println("No such contact found.");
-        }
-    }
-
-    // Display the Contact List --> Display all elements of a Singly Linked List
-    public void displayContacts() {
-        Contact current = head;
-        if (current == null) {
-            System.out.println("Contact list is empty.");
-        } else {
-            System.out.println("Contacts:");
-            while (current != null) {
-                System.out.println("Phone Number: " + current.phoneNumber);
-                System.out.println("Full Name: " + current.fullName);
-                System.out.println("Age: " + current.age);
-                System.out.println("Gender: " + current.gender);
-                System.out.println("Address: " + current.address);
-                System.out.println("--------------------------------------------------------");
-                current = current.next;
-            }
-        }
-    }
-
-}
-
-class ContactManagementSystem {
+public class CNM {
     public static void main(String[] args) {
-        ContactList contactList = new ContactList();
-        Scanner scanner = new Scanner(System.in);
-        int choice;
+        Scanner sc = new Scanner(System.in);
+        Diary d = new Diary();
+        int i = 0;
+        String name, mob_no;
+        while (i != 6) {
+            System.out.println("Enter \n1.Add Contact\n2.Delete Contact\n3.Search Contact\n4.Sort\n5.Display\n6.Exit");
+            try {
+                i = sc.nextInt();
+                sc.nextLine();
+                switch (i) {
+                    case 1:
+                        System.out.println("Enter Name : ");
+                        name = sc.nextLine();
+                        System.out.println("Enter Mobile Number : ");
+                        mob_no = sc.nextLine();
+                        if (checkMobnoValidity(mob_no)) {
+                            d.addContact(name, mob_no);
+                        }
+                        break;
 
-        do {
-            System.out.println();
-            System.out.println("Contact Management System Menu:");
-            System.out.println("1. Add a Contact");
-            System.out.println("2. Delete a Contact");
-            System.out.println("3. Search a Contact");
-            System.out.println("4. Replace a Contact Number");
-            System.out.println("5. Edit Contact Information");
-            System.out.println("6. Display Contacts");
-            System.out.println("7. Exit");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+                    case 2:
+                        System.out.println("Enter Name : ");
+                        name = sc.nextLine();
+                        d.deleteContact(name);
+                        break;
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Phone Number: ");
-                    String phoneNumber = scanner.nextLine();
-                    System.out.print("Enter Full Name: ");
-                    String fullName = scanner.nextLine();
-                    System.out.print("Enter Age: ");
-                    int age = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
-                    System.out.print("Enter Gender: ");
-                    String gender = scanner.nextLine();
-                    System.out.print("Enter Address: ");
-                    String address = scanner.nextLine();
-                    contactList.addContact(phoneNumber, fullName, age, gender, address);
-                    System.out.println("Phone number added successfully");
-                    break;
+                    case 3:
+                        System.out.println("Enter Name : ");
+                        d.searchContact(sc.nextLine());
+                        break;
 
-                case 2:
-                    System.out.print("Enter Phone Number or Full Name to Delete: ");
-                    String deleteInput = scanner.nextLine();
-                    contactList.deleteContact(deleteInput);
-                    break;
+                    case 4:
+                        System.out.println("Contact Diary Is Sorted");
+                        d.sortDiary();
+                        d.displayDiary();
+                        break;
 
-                case 3:
-                    System.out.print("Enter Phone Number or Full Name to Search: ");
-                    String searchInput = scanner.nextLine();
-                    contactList.searchContact(searchInput);
-                    break;
+                    case 5:
+                        System.out.println("Contact's : ");
+                        d.displayDiary();
+                        break;
 
-                case 4:
-                    System.out.print("Enter Old Phone Number: ");
-                    String oldNumber = scanner.nextLine();
-                    System.out.print("Enter New Phone Number: ");
-                    String newNumber = scanner.nextLine();
-                    contactList.replaceContactNumber(oldNumber, newNumber);
-                    System.out.println("Phone number replaced successfully.");
-                    break;
+                    case 6:
+                        System.out.println("Exit...");
+                        break;
 
-                case 5:
-                    System.out.print("Enter Phone Number to Edit Information: ");
-                    String editPhoneNumber = scanner.nextLine();
-                    System.out.print("Enter Phone Number: ");
-                    String newPhoneNumber = scanner.nextLine();
-                    System.out.print("Enter New Full Name: ");
-                    String newFullName = scanner.nextLine();
-                    System.out.print("Enter New Age: ");
-                    int newAge = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
-                    System.out.print("Enter New Gender: ");
-                    String newGender = scanner.nextLine();
-                    System.out.print("Enter New Address: ");
-                    String newAddress = scanner.nextLine();
-                    contactList.editContactInformation(editPhoneNumber, newPhoneNumber, newFullName, newAge, newGender,
-                            newAddress);
-                    break;
-
-                case 6:
-                    contactList.displayContacts();
-                    break;
-
-                case 7:
-                    System.out.println("Exiting Contact Management System.");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                    default:
+                        System.out.println("Enter Valid Choice!!!");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Enter Valid Integer Choice!!!");
+                break;
             }
-        } while (choice != 7);
+        }
+        sc.close();
+    }
 
-        scanner.close();
+    public static boolean checkMobnoValidity(String mobNo) {
+        if (mobNo.length() != 10) {
+            System.out.println("Mobile Number Must Be 10 Digits!!!");
+            return false;
+        } else {
+            for (int i = 0; i < 10; i++) {
+                if (!(mobNo.charAt(i) >= '0' && mobNo.charAt(i) <= '9')) {
+                    System.out.println("Enter Digit!!!");
+                    return false;
+                } else {
+                    if (!(mobNo.charAt(0) > '5')) {
+                        System.out.println("Contact Number Must Start with 9,8,7,6");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
+
+class Diary {
+    class Contact {
+        String name, mob_no;
+        Contact next, prev;
+
+        public Contact(String name, String mob_no) {
+            this.name = name;
+            this.mob_no = mob_no;
+            next = null;
+            prev = null;
+        }
+
+        @Override
+        public String toString() {
+            return "Contact [name=" + name + ", mob_no=" + mob_no + "]";
+        }
+    }
+
+    Contact first = null;
+
+    void addContact(String name, String mob_no) {
+        Contact newContact = new Contact(name, mob_no);
+        if (first == null) {
+            first = newContact;
+        } else {
+            Contact temp = first;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            newContact.prev = temp;
+            temp.next = newContact;
+            temp = null;
+        }
+    }
+
+    void deleteContact(String name) {
+        if (first == null) {
+            System.out.println("Diary Is Empty!!!");
+        } else if (first.name.equalsIgnoreCase(name)) {
+            if (first.next == null) {
+                first = null;
+            } else {
+                first = first.next;
+                first.prev.next = null;
+                first.prev = null;
+            }
+        } else {
+            Contact temp = first;
+            Contact dContact = null;
+            while (temp.next != null && !temp.next.name.equalsIgnoreCase(name)) {
+                temp = temp.next;
+            }
+            if (temp.next != null) {
+                dContact = temp.next;
+                temp.next = temp.next.next;
+
+                if (temp.next != null)
+                    temp.next.prev = temp;
+
+                dContact.next = null;
+                dContact.prev = null;
+                System.out.println(dContact.toString() + " is Deleted");
+            } else {
+                System.out.println("Contact Not Found!!!");
+            }
+        }
+    }
+
+    void searchContact(String name) {
+        if (first == null) {
+            System.out.println("Contact Diary Is Empty!!!");
+        } else if (first.name.startsWith(name)) {
+            System.out.println(first.toString());
+        }
+        if (first.next != null) {
+            Contact temp = first;
+            while (temp.next != null) {
+                if (temp.next.name.startsWith(name)) {
+                    System.out.println(temp.next.toString());
+                }
+                temp = temp.next;
+            }
+
+        }
+    }
+
+    void sortDiary() {
+        if (first == null) {
+            System.out.println("Empty!!!");
+        } else {
+            Contact min;
+            for (Contact i = first; i.next != null; i = i.next) {
+                min = i;
+                for (Contact j = i.next; j != null; j = j.next) {
+                    if (j.name.compareToIgnoreCase(min.name) < 0) {
+                        min = j;
+                    }
+                }
+                String name = i.name;
+                String mob_no = i.mob_no;
+                i.name = min.name;
+                i.mob_no = min.mob_no;
+                min.name = name;
+                min.mob_no = mob_no;
+            }
+        }
+    }
+
+    void displayDiary() {
+        Contact temp = first;
+        if (first == null) {
+            System.out.println("Empty!!!");
+        } else {
+            while (temp != null) {
+                System.out.println(temp.toString());
+                temp = temp.next;
+            }
+        }
+    }
+}
+
