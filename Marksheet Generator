@@ -1,0 +1,263 @@
+import java.util.*;
+class Marksheet
+{
+	Scanner sc=new Scanner(System.in);
+	void login(String Id)
+	{
+		Marksheet ob1=new Marksheet();
+		int x=1;
+		if(Id.equals("3abc")||Id.equals("6abc")||Id.equals("8abc"))
+		{
+			System.out.println("enter password:");
+			String pass=sc.next();
+		    ob1.pass1(pass);
+		}
+		else
+		{
+			System.out.println("Invalid userId !!...\nRe-enter userId");
+			String Id1=sc.next();
+			for(int f=0;f<5;f++)
+			{
+				x++;
+				if(x==3)
+				{
+					ob1.login(Id1);
+					break;
+				}
+				
+			}
+		}
+		
+	}
+	void pass1(String pass)
+	{
+		Marksheet ob2=new Marksheet();
+		int y=1;
+		if(pass.equals("3456")||pass.equals("1234")||pass.equals("5678"))
+		{
+			System.out.println();
+		}
+		else
+		{
+			System.out.println("Invalid password !!...\nRe-enter password");
+			String password=sc.next();
+			for(int g=0;g<5;g++)
+			{
+				y++;
+				if(y==3)
+				{
+					ob2.pass1(password);
+					break;
+				}
+				
+				
+			}
+		}
+	}
+	public static void main(String args[])
+	{
+		Marksheet ob=new Marksheet();
+		int n,sem;
+		double total=0,per,credit=0,SP=0,cr=0;
+		String name,SPI="0",rollno;
+		Scanner sc=new Scanner(System.in);
+		System.out.println();
+		System.out.println();
+		System.out.println("....................Marksheet Generation System....................");
+		System.out.println();
+		System.out.println();
+		System.out.println("enter userId:");
+		String Id=sc.next();
+		ob.login(Id);
+		System.out.println("....................WELCOME TO MARKSHEET GENERATION SYSTEM....................");
+		
+		//taking input
+		
+		System.out.println("enter semester:");
+		sem=sc.nextInt();
+		System.out.println("enter the Student roll no:");
+		rollno=sc.next();
+		System.out.println("enter the Student name:");
+		sc.nextLine();
+        name=sc.nextLine();
+		name=name.toUpperCase();
+		int x=name.length();
+		System.out.println("enter no of subject:");
+		n=sc.nextInt();
+		String marks[]=new String[n];
+		String sub[]=new String[n];
+		double a[]=new double[n];
+		System.out.println("enter marks out of 100:"+"\nFor absent Students write :"+"AB");
+		for(int i=0;i<n;i++)
+		{
+			System.out.println("enter sub"+(i+1)+"=");
+			sc.nextLine();
+			sub[i]=sc.nextLine();
+			sub[i]=sub[i].toUpperCase();
+			if(sub[i].equalsIgnoreCase("Maths"))
+			{
+				credit=6;
+			}
+			else if(sub[i].equalsIgnoreCase("Physics"))
+			{
+				credit=4;
+			}
+			else if(sub[i].equalsIgnoreCase("Java"))
+			{
+				credit=6;
+			}
+			else if(sub[i].equalsIgnoreCase("S.E")||sub[i].equalsIgnoreCase("Software Engineering"))
+			{
+				credit=4;
+            }
+			else if(sub[i].equalsIgnoreCase("E.S")||sub[i].equalsIgnoreCase("Environment Science"))
+			{
+				credit=0;
+			}
+			else if(sub[i].equalsIgnoreCase("I.O.T")||sub[i].equalsIgnoreCase("CWS"))
+			{
+				credit=2;
+			}
+			else
+			{
+				credit=0;
+			}
+			System.out.println("enter marks"+(i+1)+"=");
+			marks[i]=sc.next();
+			if(marks[i].equalsIgnoreCase("AB")||Integer.parseInt(marks[i])<=100)
+			{
+				
+				for(int l=0;l<n;l++)
+				{
+					if(marks[i].equalsIgnoreCase("AB"))
+					{
+						marks[i]="AB";
+						a[l]=0;
+					}
+					else
+					{
+						a[l]=Integer.parseInt(marks[i]);
+					}
+				}
+				total=total+a[i];
+			}
+			else
+			{
+				System.out.println("enter valid marks");
+				marks[i]=sc.next();
+			}
+			SP=SP+(a[i]*credit);
+			cr=cr+credit;
+		}
+		double s=Double.parseDouble(SPI);
+		s=SP/(cr*10);
+		SPI=Double.toString(s);
+
+
+		// for display marksheet
+		
+		
+		System.out.println();
+		System.out.println("**************************************************");
+		System.out.println("                  L.J UNIVERSITY                  ");
+		System.out.println("**************************************************");
+		System.out.println();
+		System.out.println("__________________________________________________");
+		System.out.print  ("|STUDENT NAME |"+name);
+			
+		for(int b=(34-x);b>0;b--)
+		{
+			System.out.print(" ");
+		}
+		System.out.println("|");
+		System.out.println("__________________________________________________");
+		if(rollno.length()==1)
+		{
+			System.out.println("|ROLL NO      |"+rollno+"                                 |");
+		}
+		else if(rollno.length()==2)
+		{
+			System.out.println("|ROLL NO      |"+rollno+"                                |");
+		}
+		else if(rollno.length()==3)
+		{
+			System.out.println("|ROLL NO      |"+rollno+"                                 |");
+		}
+		System.out.println("__________________________________________________");
+		System.out.println("|SEM          |"+sem+"                                 |");
+		System.out.println("__________________________________________________");
+		System.out.println("|SUBJECT                       |"+"MARKS            |");
+		System.out.println("__________________________________________________");
+            
+		for(int i=0;i<n;i++)
+		{
+			System.out.print("|"+sub[i]);
+			int y=sub[i].length();
+			for(int b=(30-y);b>0;b--)
+			{
+				System.out.print(" ");
+		    }
+			System.out.print("|");
+			System.out.print(marks[i]);
+			int m=marks[i].length();
+			for(int b=(17-m);b>0;b--)
+			{
+				System.out.print(" ");
+			} 
+			System.out.println("|");
+			System.out.println("--------------------------------------------------");
+		}
+		per=(total*100)/(n*100);
+		System.out.println("__________________________________________________");
+		System.out.println("|TOTAL MARKS       |"+total+"                        |");
+		System.out.println("__________________________________________________");
+		String b=Double.toString(per);
+		if(b.length()>4)
+		{
+			System.out.println("|PERCENTAGE        |"+b.charAt(0)+b.charAt(1)+b.charAt(2)+b.charAt(3)+b.charAt(4)+"                        |");
+		}
+		else
+		{
+			System.out.println("|PERCENTAGE        |"+per+"                         |");    
+		}
+		System.out.println("__________________________________________________");
+		if(per>80)
+		{
+			System.out.println("|GRADE             | A                           |");
+			System.out.println("__________________________________________________");
+		}
+		else if(per>=60)
+		{
+			System.out.println("|GRADE             | B                           |");
+			System.out.println("__________________________________________________");
+		}
+		else if(per>=45)
+		{
+			System.out.println("|GRADE             | C                           |");
+			System.out.println("__________________________________________________");
+		}
+		else if(per>=35)
+		{
+			System.out.println("|GRADE             | D                           |");
+			System.out.println("__________________________________________________");
+		}
+		else
+		{
+			System.out.println("|RESULT            |FAIL                         |");
+			System.out.println("__________________________________________________");
+		}
+		if(SPI.length()>=4)
+		{
+			System.out.println("|SPI               |"+SPI.charAt(0)+SPI.charAt(1)+SPI.charAt(2)+SPI.charAt(3)+SPI.charAt(4)+"                        |");
+        }
+		else if(SPI.length()>=2&&SPI.length()<4)
+		{
+			System.out.println("|SPI               |"+SPI.charAt(0)+SPI.charAt(1)+SPI.charAt(2)+"                          |");
+		}
+		else
+		{
+			System.out.println("|SPI               |"+SPI+"                         |");
+		}
+		System.out.println("__________________________________________________");
+	}
+}
