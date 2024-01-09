@@ -1,0 +1,250 @@
+import java.util.Scanner;
+
+class Contact {
+    String phoneNumber;
+    String fullName;
+    int age;
+    String gender;
+    String address;
+    Contact next;
+
+    // Created a NODE named as CONTACT
+    public Contact(String phoneNumber, String fullName, int age, String gender, String address) {
+        this.phoneNumber = phoneNumber;
+        this.fullName = fullName;
+        this.age = age;
+        this.gender = gender;
+        this.address = address;
+        this.next = null;
+    }
+}
+
+class ContactList {
+    private Contact head;
+
+    public ContactList() {
+        head = null;
+    }
+
+    // Add Contact --> Add node at last of singly linked list
+    public void addContact(String phoneNumber, String fullName, int age, String gender, String address) {
+        Contact newContact = new Contact(phoneNumber, fullName, age, gender, address);
+        if (head == null) {
+            head = newContact;
+        } else {
+            Contact current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newContact;
+        }
+    }
+
+    // Delete Contact --> Delete a particular node from singly linked list
+    public void deleteContact(String input) {
+        Contact current = head;
+        Contact prev = null;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.phoneNumber.equals(input) || current.fullName.equals(input)) {
+                found = true;
+                break;
+            }
+            prev = current;
+            current = current.next;
+        }
+
+        if (found) {
+            if (prev != null) {
+                prev.next = current.next;
+            } else {
+                head = current.next;
+            }
+            System.out.println("Contact deleted successfully.");
+        } else {
+            System.out.println("No such contact found.");
+        }
+    }
+
+    // Search a Contact --> Either by name of person or by phone number
+    public void searchContact(String input) {
+        Contact current = head;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.phoneNumber.equals(input) || current.fullName.equals(input)) {
+                found = true;
+                System.out.println("Phone Number: " + current.phoneNumber);
+                System.out.println("Full Name: " + current.fullName);
+                System.out.println("Age: " + current.age);
+                System.out.println("Gender: " + current.gender);
+                System.out.println("Address: " + current.address);
+                break;
+            }
+            current = current.next;
+        }
+
+        if (!found) {
+            System.out.println("No such contact found.");
+        }
+    }
+
+    // Replace the new contact number by old
+    public void replaceContactNumber(String oldNumber, String newNumber) {
+        Contact current = head;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.phoneNumber.equals(oldNumber)) {
+                found = true;
+                current.phoneNumber = newNumber;
+                System.out.println("Contact number replaced successfully.");
+                break;
+            }
+            current = current.next;
+        }
+
+        if (!found) {
+            System.out.println("No such contact found.");
+        }
+    }
+
+    // Edit the information for the current contact number
+    public void editContactInformation(String phoneNumber, String newPhoneNumber, String newFullName, int newAge,
+            String newGender, String newAddress) {
+        Contact current = head;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.phoneNumber.equals(phoneNumber)) {
+                found = true;
+                current.phoneNumber = newPhoneNumber;
+                current.fullName = newFullName;
+                current.age = newAge;
+                current.gender = newGender;
+                current.address = newAddress;
+                System.out.println("Contact information updated successfully.");
+                break;
+            }
+            current = current.next;
+        }
+
+        if (!found) {
+            System.out.println("No such contact found.");
+        }
+    }
+
+    // Display the Contact List --> Display all elements of a Singly Linked List
+    public void displayContacts() {
+        Contact current = head;
+        if (current == null) {
+            System.out.println("Contact list is empty.");
+        } else {
+            System.out.println("Contacts:");
+            while (current != null) {
+                System.out.println("Phone Number: " + current.phoneNumber);
+                System.out.println("Full Name: " + current.fullName);
+                System.out.println("Age: " + current.age);
+                System.out.println("Gender: " + current.gender);
+                System.out.println("Address: " + current.address);
+                System.out.println("--------------------------------------------------------");
+                current = current.next;
+            }
+        }
+    }
+
+}
+
+class ContactManagementSystem {
+    public static void main(String[] args) {
+        ContactList contactList = new ContactList();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println();
+            System.out.println("Contact Management System Menu:");
+            System.out.println("1. Add a Contact");
+            System.out.println("2. Delete a Contact");
+            System.out.println("3. Search a Contact");
+            System.out.println("4. Replace a Contact Number");
+            System.out.println("5. Edit Contact Information");
+            System.out.println("6. Display Contacts");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Phone Number: ");
+                    String phoneNumber = scanner.nextLine();
+                    System.out.print("Enter Full Name: ");
+                    String fullName = scanner.nextLine();
+                    System.out.print("Enter Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    System.out.print("Enter Gender: ");
+                    String gender = scanner.nextLine();
+                    System.out.print("Enter Address: ");
+                    String address = scanner.nextLine();
+                    contactList.addContact(phoneNumber, fullName, age, gender, address);
+                    System.out.println("Phone number added successfully");
+                    break;
+
+                case 2:
+                    System.out.print("Enter Phone Number or Full Name to Delete: ");
+                    String deleteInput = scanner.nextLine();
+                    contactList.deleteContact(deleteInput);
+                    break;
+
+                case 3:
+                    System.out.print("Enter Phone Number or Full Name to Search: ");
+                    String searchInput = scanner.nextLine();
+                    contactList.searchContact(searchInput);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Old Phone Number: ");
+                    String oldNumber = scanner.nextLine();
+                    System.out.print("Enter New Phone Number: ");
+                    String newNumber = scanner.nextLine();
+                    contactList.replaceContactNumber(oldNumber, newNumber);
+                    System.out.println("Phone number replaced successfully.");
+                    break;
+
+                case 5:
+                    System.out.print("Enter Phone Number to Edit Information: ");
+                    String editPhoneNumber = scanner.nextLine();
+                    System.out.print("Enter Phone Number: ");
+                    String newPhoneNumber = scanner.nextLine();
+                    System.out.print("Enter New Full Name: ");
+                    String newFullName = scanner.nextLine();
+                    System.out.print("Enter New Age: ");
+                    int newAge = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    System.out.print("Enter New Gender: ");
+                    String newGender = scanner.nextLine();
+                    System.out.print("Enter New Address: ");
+                    String newAddress = scanner.nextLine();
+                    contactList.editContactInformation(editPhoneNumber, newPhoneNumber, newFullName, newAge, newGender,
+                            newAddress);
+                    break;
+
+                case 6:
+                    contactList.displayContacts();
+                    break;
+
+                case 7:
+                    System.out.println("Exiting Contact Management System.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 7);
+
+        scanner.close();
+    }
+}
