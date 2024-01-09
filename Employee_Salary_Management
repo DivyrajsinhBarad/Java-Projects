@@ -1,0 +1,330 @@
+import java.util.*;
+import java.sql.*;
+import java.io.*;
+class Method{
+    Scanner sc=new Scanner(System.in);
+    public static void menu()
+	{       System.out.println();
+	        System.out.println("   >>>>>>>>>> :: WELCOME TO EMPLOYEE MANAGMENT APPLICATION :: <<<<<<<<<<");
+			System.out.println();
+		    System.out.println("Select your choice");
+		    System.out.println(" press 1  ->viwe all employees details :");
+            System.out.println(" press 2  ->Add Employee :");
+            System.out.println(" press 3  ->Update employee details :");
+            System.out.println(" press 4  ->remove employee :");
+			System.out.println(" press 5  ->count employee same designation :");
+			System.out.println(" press 6  ->do you want to increase employee salary ? :");
+			System.out.println(" press 7  ->do you want to promote an employee ?:");
+			System.out.println(" press 8  ->do you want to give bonuses to employee ? ");
+			System.out.println(" press 9 ->do you want to deduct the salary of an absentee employee :");
+			System.out.println(" press 10 -> over time salary :");
+            System.out.println(" press 11 ->Exit ");
+	}
+    int hours;
+
+    public double calculateOverTimeSalary(int hours){
+        this.hours=hours;
+        double overtimeSalary=hours*200;
+        return overtimeSalary;
+
+    }
+}
+public class Employee_2{
+    
+    public static void main(String[] args)throws Exception {
+        Scanner sc=new Scanner(System.in);
+        String drivername = "com.mysql.cj.jdbc.Driver";
+        Class.forName(drivername);
+        System.out.println("Loded succesfully");
+
+        String url= "jdbc:mysql://localhost:3306/employee";
+        String dbuser = "root";
+        String dbpass="";
+        Connection con=DriverManager.getConnection(url, dbuser, dbpass);
+        if(con != null){
+            System.out.println("Connection establish");
+        }
+        else{
+            System.out.println("connection failed");
+        }
+        PreparedStatement pst;
+
+        int choice;
+        do {
+			Method.menu();
+            System.out.print("Enter your choice: ");
+            choice=sc.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    System.out.println("employee data");
+                    String sql="{call getEmployeeData()}";
+                    CallableStatement cst=con.prepareCall(sql);
+                    ResultSet rs=cst.executeQuery();
+                    System.out.println("-----------------------------");
+                    while(rs.next()){
+                        System.out.println("employee id: "+rs.getInt(1));
+                        System.out.println("employee name: "+rs.getString(2));
+                        System.out.println("employee age: "+rs.getInt(3));
+                        System.out.println("employee designation: "+rs.getString(4));
+                        System.out.println("employee department: "+rs.getString(5));  
+                        System.out.println("-----------------------------");
+
+                    }
+                    
+                    break;
+                case 2:
+                    String sql1="insert into employee values(?,?,?,?,?,?)";
+                    pst=con.prepareStatement(sql1);
+                    System.out.print("Enter id: ");
+                    int id=sc.nextInt();
+
+                    System.out.print("Enter name: ");
+                    String name = sc.next();
+
+                    System.out.print("Enter age: ");
+                    int age = sc.nextInt();
+
+                    System.out.print("Enter designation: ");
+                    String designation=sc.nextLine();
+
+                    System.out.print("Enter department: ");
+                    String department=sc.next();
+
+                    System.out.print("Enter salary: ");
+                    double salary = sc.nextDouble();
+
+                    pst.setInt(1,id);
+                    pst.setString(2,name);
+                    pst.setInt(3,age);
+                    pst.setString(4, designation);
+                    pst.setString(5,department);
+                    pst.setDouble(6, salary);
+                    int r=pst.executeUpdate();
+                    if(r>0){
+                        System.out.println("Employee added successfully!");
+                    }
+                     else {
+                        System.out.println("employee  not added successfully");
+                     }
+                    break;
+                
+                case 3:
+                    int u;
+                    do{
+                         sc.nextLine();
+                         System.out.print("Enter employee id you want to update other details: ");
+                         int id1 = sc.nextInt();
+                         System.out.println("What do you want to update:");
+						 System.out.println("1 - update Name:");
+						 System.out.println("2 - update age:");
+						 System.out.println("3 - update designation:");
+						 System.out.println("4 - update department:");
+                         System.out.println("5 - update salary");
+						 System.out.println("6- update all details:");
+                         System.out.println("7 - exit:");
+						 u=sc.nextInt();
+						 sc.nextLine();
+                        
+                        switch (u) {
+                            case 1:
+                                String sql3="{call Update_name(?,?)}";
+                                CallableStatement cst1=con.prepareCall(sql3);
+                                System.out.println("enter  new Name of employee:");      
+                                String Name=sc.next();
+                                cst1.setInt(1,id1);
+                                cst1.setString(2, Name);
+                                cst1.executeUpdate();  
+                                System.out.println(" name update successfully ");                         
+                                cst1.close();
+
+                                break;
+                            case 2:
+                                String sql4="{call Update_age(?,?)}";
+                                CallableStatement cst2=con.prepareCall(sql4);
+                                System.out.println("enter  new age of employee:");      
+                                int newAge=sc.nextInt();
+                                cst2.setInt(1,id1);
+                                cst2.setInt(2, newAge);
+                                cst2.executeUpdate();  
+                                System.out.println(" age update successfully ");                         
+                                cst2.close();   
+                                                
+
+                                 break;
+                            case 3:
+                                String sql5="{call Update_designation(?,?)}";
+                                CallableStatement cst3=con.prepareCall(sql5);
+                                System.out.println("enter  new designation of employee:");      
+                                String newDesignation=sc.nextLine();
+                                cst3.setInt(1,id1);
+                                cst3.setString(2, newDesignation);
+                                cst3.executeUpdate(); 
+                                System.out.println(" designation update successfully ");                         
+                                cst3.close();
+                                                         
+
+                                break;
+                            case 4:
+                                String sql6="{call Update_department(?,?)}";
+                                CallableStatement cst4=con.prepareCall(sql6);
+                                System.out.println("enter  new department of employee:");      
+                                String newDepartment=sc.nextLine();
+                                cst4.setInt(1,id1);
+                                cst4.setString(2, newDepartment);
+                                cst4.executeUpdate(); 
+                                System.out.println(" department update successfully ");                         
+                                cst4.close();
+                                break;
+                            case 5:
+                                String sql7="{call Update_salary(?,?)}";
+                                CallableStatement cst5=con.prepareCall(sql7);
+                                System.out.println("enter  new salary of employee:");      
+                                double newSalary=sc.nextDouble();
+                                cst5.setInt(1,id1);
+                                cst5.setDouble(2, newSalary);
+                                cst5.executeUpdate(); 
+                                System.out.println(" salary update successfully ");  
+                                cst5.close();                       
+
+                                break;
+                            case 6:
+                                    break;
+
+                            default:
+                                System.out.println("enter valid choice");
+                                break;
+                        } 
+                    }while(u!=7);
+
+                    break;
+
+                case 4:
+                    System.out.println("enter id of employee you want to remove ");
+                    int eid1=sc.nextInt();
+                    Statement st=con.createStatement();
+                    String sql8="delete from employee where E_id="+ eid1 +" ";
+                    int r1=st.executeUpdate(sql8);
+                    if(r1!=0){
+                        System.out.println("remove employee successfully");
+                    }
+                    else{
+                        System.out.println("employee not remove");
+                    }
+                    st.close();
+
+                    break;
+
+                case 5:
+                    System.out.println("enter designation you want to count");
+                    String new_designation=sc.next();
+                    String qsql="{call Count_designation(?,?)}";
+                    CallableStatement cst6=con.prepareCall(qsql);
+                    cst6.setString(1,new_designation);
+                    cst6.execute();
+                    int countdesignationn=cst6.getInt("count_designation");
+                    System.out.println("same designationn of-"+new_designation+"-is-"+countdesignationn);
+
+                    break;
+                case 6:
+                    System.out.println("enter id of employee you want to increase salary");
+                    int eid2=sc.nextInt();
+                    System.out.println("enter how much slary you want to increase");
+                    double increaseSalary=sc.nextDouble();
+                    String sql9="update employee set E_salary=E_salary+"+increaseSalary+" where E_id="+eid2+"";
+                    pst=con.prepareStatement(sql9);
+                    int r2=pst.executeUpdate();
+                    if(r2>0){
+                        System.out.println("salary increase successfully");
+                    }
+                    else{
+                        System.out.println("salary not increase");
+                    }
+
+                break;
+                
+                case 7:
+                    System.out.println("enter id of employee you want promot");
+                    int eid3=sc.nextInt();
+                    System.out.println("enter promoted designation for  employee");
+                    String promotedDesignation =sc.nextLine();
+                    String sql10="update employee set E_dedsignation="+promotedDesignation +" where E_id="+eid3;
+                    pst=con.prepareStatement(sql10);
+                    int r3=pst.executeUpdate();
+                    if(r3>0){
+                        System.out.println("employee promoted successfully");
+                    }
+                    else{
+                        System.out.println("employee not promoted");
+                    }
+
+                break;
+
+                case 8:
+        
+                    System.out.println("enter how much bonus you want to give employee");
+                    double bonusSalary=sc.nextDouble();
+                    String sql11="update employee set E_salary=E_salary+"+bonusSalary+"";
+                    pst=con.prepareStatement(sql11);
+                    int r4=pst.executeUpdate();
+                    if(r4>0){
+                        System.out.println("bonus given successfully");
+                    }
+                    else{
+                        System.out.println("bonus not given");
+                    }
+                break;
+
+                case 9:
+                    System.out.println("enter id of emloyee who is absent");
+                    int eid4=sc.nextInt();
+                    System.out.println("enter days of absent of thier employee");
+                    int days=sc.nextInt();
+                    if(days>2){
+                    double deductSalary= (days-2)*500;                   
+                    String sql12="update employee set E_salary=E_salary - "+deductSalary+" where E_id="+eid4;
+                    pst=con.prepareStatement(sql12);
+                    int r5=pst.executeUpdate();
+                        if(r5>0){
+                           System.out.println("salary deduct successfully");
+                        }
+                        else{
+                            System.out.println("salary deduct increase");
+                        }
+                    }
+                    else{
+                        System.out.println("employee not absent more than 2 days ");
+                    }
+                break;
+
+                case 10:
+                
+                    System.out.println("enter id who works over time ");
+                    int eid5=sc.nextInt();
+                    System.out.println("enter how many hours employee work over time");
+                    int hours=sc.nextInt();
+                    double overtimeSalary=new Method().calculateOverTimeSalary(hours);
+                    String sql13="update employee set E_salary=E_salary+"+overtimeSalary+" where E_id="+eid5;
+                    pst=con.prepareStatement(sql13);
+                    int r6=pst.executeUpdate();
+                    if(r6>0){
+                        System.out.println("overtimesalary added successfully");
+                    }
+                    else{
+                        System.out.println("overtimesalary not added");
+                    }
+
+                break;
+                case 11:
+                    System.out.println("  :: THANKYOU FOR USING APPLICATION  ::");
+                    System.exit(0);
+
+                break;
+
+                default:
+                    break;
+            }
+        }while(choice!=4);
+        con.close();
+    }
+}
