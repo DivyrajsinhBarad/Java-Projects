@@ -1,0 +1,482 @@
+/*Project Name : Doubly Circular Linked List 
+ * Date : 29/09/2004
+ * Subject : Data Structure using java 
+*/
+import java.util.Scanner;
+class DCLL
+{
+    Scanner sc = new Scanner(System.in);
+    
+    class Node
+    {
+        int Data;
+        Node Next;
+        Node Prev;
+        Node(int Data)
+        {
+            this.Data= Data;
+            Next=null;
+            Prev=null;
+        }
+    }
+    Node First=null;
+   void insertAtFirst(int Data)
+   {
+        Node NewNode = new Node(Data);
+        if(First==null)
+        {
+            First =NewNode;
+            First.Next=First;
+            First.Prev=First;
+        }
+        else
+        {
+            Node Temp=First;
+            while(Temp.Next!=First)
+            {
+                Temp=Temp.Next;
+            }
+            NewNode.Next=First;
+            NewNode.Prev=Temp;
+            First.Prev=NewNode;
+            Temp.Next=NewNode;
+            First=NewNode;
+        }
+   }
+   void insertAtLast(int Data)
+   {
+        Node NewNode = new Node(Data);
+          if(First==null)
+        {
+            First =NewNode;
+            First.Next=First;
+            First.Prev=First;
+        }
+        else
+        {
+            Node Temp=First;
+            while(Temp.Next!=First)
+            {
+                Temp=Temp.Next;
+            }
+            NewNode.Next=First;
+            First.Prev=NewNode;
+            Temp.Next=NewNode;
+            NewNode.Prev=Temp;
+        }
+   }
+    void deleteFirst() 
+        {
+           if(First==null) 
+           {
+            System.out.println("Empty");
+           }
+           else if(First.Next==First && First.Prev==First) 
+           {
+            System.out.println("deleted element is : "+First.Data);
+            First=null; 
+           }
+           else 
+           {
+            System.out.println("deleted element is : "+First.Data);
+            Node Temp=First; 
+            First=First.Next;
+            First.Prev.Prev.Next=First;
+            First.Prev=First.Prev.Prev;
+            Temp.Next=null;
+            Temp.Prev=null;   
+            }
+        }
+        void deleteLast() 
+        {
+           if(First==null) 
+           {
+            System.out.println("Empty");
+            }
+            else if(First.Next==First && First.Prev==First) 
+            {
+                System.out.println("deleted element is : "+First.Data);
+                First=null; 
+            }
+            else 
+            {
+                Node Temp=First; 
+                while(Temp.Next!=First) 
+                {
+                    Temp=Temp.Next; 
+                    
+                }
+                System.out.println("deleted element is : "+Temp.Data);
+                Temp.Prev.Next=Temp.Next;
+                First.Prev=Temp.Prev;
+                Temp.Next=null;
+                Temp.Prev=null;
+            }
+           
+        }
+        void InsertBeforeValue(int Data, int target) 
+		{
+			Node NewNode = new Node(Data); 
+			if (First == null) { 
+			System.out.println("LinkedList is Empty");
+			return;
+			}
+            if(First.Next==First&&First.Data==target)
+            {
+                insertAtFirst(Data);
+                return;
+            }
+			else if (First.Data == target) 
+			{ 
+                Node Temp=First;
+                do
+                {
+                    Temp=Temp.Next;
+                } while (Temp.Next!=First);
+                Temp.Next=NewNode;
+                NewNode.Prev=Temp;
+                NewNode.Next=First;
+                First.Prev=NewNode;
+                First=NewNode;
+				return;
+			}
+			Node current = First.Next; 
+			while (current != First)
+			{
+				if (current.Data == target) 
+				{
+					NewNode.Next = current; 
+					NewNode.Prev = current.Prev;
+					current.Prev.Next = NewNode; 
+					current.Prev = NewNode; 
+					return;
+				}
+				current = current.Next; 
+            }
+		    System.out.println("Target Value not found in the list");
+		}
+
+        void InsertAfterValue(int Data,int target)
+        {
+            Node NewNode = new Node(Data);
+            if (First == null) { 
+			System.out.println("LinkedList is Empty");
+			return;
+			}
+            Node Temp=First;
+            if(First.Next==First&&First.Data==target)
+            {
+                First.Next=NewNode;
+                NewNode.Next=First;
+                NewNode.Prev=First;
+                First.Prev=NewNode;
+                return;
+            }
+			else if (First.Data == target) 
+			{
+                Temp=Temp.Next;
+                First.Next=NewNode;
+                NewNode.Prev=First;
+                NewNode.Next=Temp;
+                Temp.Prev=NewNode;
+                return;
+            }
+            Node current = First.Next;
+			while (current != First)
+			{
+				if (current.Data == target) 
+				{
+                    current.Next.Prev=NewNode;
+                    NewNode.Next=current.Next;
+                    current.Next=NewNode;
+                    NewNode.Prev=current;
+                }
+                current=current.Next;
+            }    
+            if(current.Next==First&&current.Data!=target)
+                {
+                    System.out.println("Element not found.");
+                }
+        }
+
+
+
+
+		void deleteValue(int Value) 
+		{
+			if (First == null) 
+			{
+				System.out.println("LINKLIST IS EMPTYT");
+			} 
+			else if (First.Data == Value && First.Next==First)
+			{
+				System.out.println(First.Data);
+				First = null;
+			} 
+            else if(First.Data == Value && First.Next!=First)
+            {
+                System.out.println("deleted element is : "+First.Data);
+                Node Temp=First; 
+                First=First.Next;
+                First.Prev.Prev.Next=First;
+                First.Prev=First.Prev.Prev;
+                Temp.Next=null;
+                Temp.Prev=null;
+            }
+			else
+			{
+				Node Temp = First;
+				while (Temp.Next != First && Temp.Data != Value) {
+                Temp = Temp.Next;
+            }
+            if (Temp.Data == Value)
+			{
+
+                if (Temp.Next != First)
+				{
+                    Temp.Prev.Next = Temp.Next;
+                    Temp.Next.Prev = Temp.Prev;
+                } 
+				
+            } 
+			else 
+				{
+                System.out.println("Value NOT FOUND");
+				}
+			}
+		}
+
+        void display_Value_between_two_Value(int f_Value,int s_Value)
+        {
+            Node t=First;
+            Node t1=First;
+            while(t1.Next!=First)
+            {
+                if(t1.Data==s_Value)
+            {
+                break;
+            }
+                t1=t1.Next;
+            }
+            
+            while(t.Next!=First)
+            {
+                if(t.Data==f_Value)
+            {
+                break;
+            }
+                t=t.Next;
+            }
+
+            if(t1.Next==First || t.Next==First)
+            {
+                System.out.println("Value not found...");
+                return;
+            }
+            t=t.Next;
+            while(t.Data!=s_Value )
+            {
+                System.out.print(t.Data+" ");
+                t=t.Next;
+            }
+
+            System.out.println();
+        }
+
+        void search(int Value)
+        {
+             if(First==null)
+            {
+                System.out.println("linklist is empty...");
+            }
+            else
+            {
+                Node t=First;
+                if(t.Data==Value)
+                {
+                     System.out.print("Element Found : ");
+                     System.out.print(t.Data+"  ");
+                     System.out.println();
+                     return;
+                }
+                while(t.Next!=First)
+                {
+                    if(t.Data==Value)
+                    {
+                        System.out.print("Element Found : ");
+                        System.out.print(t.Data+"  ");
+                        System.out.println();
+                    }
+                    t=t.Next;
+                }
+                if(t.Next==First&&t.Data!=Value)
+                {
+                    System.out.println("Element not found.");
+                }
+            }
+        }
+        
+        void display()
+        {
+            if(First==null)
+            {
+                System.out.println("linklist is empty...");
+            }
+            else
+            {
+                Node t=First;
+                while(t.Next!=First)
+                {
+                    System.out.print(t.Data+"  ");
+                    t=t.Next;
+                }
+                System.out.print(t.Data);
+                System.out.println();
+            }
+        }
+
+        void revdisplay()
+        {
+            if(First==null)
+            {
+                System.out.println("linklist is empty...");
+            }
+            else
+            {
+                Node t=First.Prev;
+                while(t.Prev!=First)
+                {
+                    System.out.print(t.Data+"  ");
+                    t=t.Prev;
+                }
+                System.out.print(t.Data+"  ");
+                System.out.print(First.Data);
+                System.out.println();
+            }
+        }
+}
+class Doubly_Circular_LinkedList 
+{
+	public static void main(String args[])
+	{
+        Scanner sc = new Scanner(System.in);
+		DCLL d = new DCLL();
+        int choice;
+        
+        int Data;
+        int Value;
+        do{
+            System.out.println("Enter Choice : ");
+            System.out.println("1. Insert at first node.");
+            System.out.println("2. Insert at last node.");
+            System.out.println("3. Delete first node. ");
+            System.out.println("4. Delete last node. ");
+            System.out.println("5. Insert data Before Value.");
+            System.out.println("6. Delete particular value.");
+            System.out.println("7. Display values between two value.");
+            System.out.println("8. Insert data After Value.");
+            System.out.println("9. Seach value.");
+            System.out.println("10. Display reverse List");
+            System.out.println("11. Exit");
+            choice = sc.nextInt();
+        switch(choice)
+        {
+            case 1:
+            {
+                System.out.println("Enter Data");
+                Data=sc.nextInt();
+                d.insertAtFirst(Data);
+                d.display();
+            }
+            break;
+
+            case 2:
+            {
+                System.out.println("Enter Data");
+                Data=sc.nextInt();
+                d.insertAtLast(Data);
+                d.display();
+            }
+            break;
+
+            case 3:
+            {
+                d.deleteFirst();
+                d.display();
+            }
+            break;
+
+            case 4:
+            {
+                d.deleteLast();
+                d.display();
+            }
+            break;
+
+            case 5:
+            {
+                System.out.println("Enter Data.");
+                Data=sc.nextInt();
+                System.out.println("enter Value.");
+                Value=sc.nextInt();
+                d.InsertBeforeValue(Data, Value);
+                d.display();
+            }
+            break;
+
+            case 6:
+            {
+                System.out.println("Enter Value.");
+                Value=sc.nextInt();
+                d.deleteValue(Value);
+                d.display();
+            }
+            break;
+
+            case 7:
+            {
+                System.out.println("Enter Strating Node : ");
+                int s_Value=sc.nextInt();
+                System.out.println("Enter Ending Node : ");
+                int e_Value=sc.nextInt();
+                d.display_Value_between_two_Value(s_Value,e_Value);
+                d.display();
+            }
+            break;
+
+            case 8:
+            {
+                System.out.println("Enter Data :");
+                Data=sc.nextInt();
+                System.out.println("Enter Value");
+                Value=sc.nextInt();
+                d.InsertAfterValue(Data, Value);
+                d.display();
+            }
+            break;
+
+            case 9:
+            {
+                System.out.println("Enter Value to search");
+                Value=sc.nextInt();
+                d.search(Value);
+            }
+            break;
+
+            case 10:
+            {
+                d.revdisplay();
+            }
+
+            case 11: break;
+
+            default:
+            {
+                System.out.println("Enter valid Choice");
+            }
+            
+        }
+    }while(choice!=11);
+        
+    }
+}
