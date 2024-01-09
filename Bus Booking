@@ -1,0 +1,361 @@
+import java.util.*;
+class Bus
+{
+	static String name;
+	static
+{
+	Scanner sc=new Scanner(System.in);
+    System.out.println("Enter Your Name: ");
+	 name=sc.nextLine();
+	System.out.println("Enter Password: ");
+	String pw=sc.next();
+	System.out.println("Enter Mobile Number: ");
+	sc.nextLine();
+			String mo=sc.next();
+			int m=mo.length();
+			
+		    if(m==10)
+				System.out.println("Login successfully. "); 
+			else
+				for(int i=1;m!=10;i++)
+				{
+					System.out.println("Re-enter mobile number. ");
+					mo=sc.next();sc.nextLine();
+					m=mo.length();
+					if(m==10)
+				System.out.println("Welcome "+name+". We are present here for your safe journey."); 
+				}
+	
+}
+
+	public static void main(String args[])
+	{
+		Book B2=new Book();
+		String f=B2.from();
+		String t=B2.to();
+		
+		B2.dateDay(f,t,name);
+	
+	}
+}
+
+
+class Book 
+{
+	String from, to;
+	int d, m;
+	Scanner sc=new Scanner(System.in);
+	
+	Book()
+	{}
+	
+	Book(String from, String to, int d, int m)
+	{
+		this.from=from;
+		this.to=to;
+		this.d=d;
+		this.m=m;
+	}
+	String from()
+	{
+		
+		System.out.println("Enter your pickup Station.");
+		System.out.println("\n// POPULAR CITIES //\n");
+		System.out.println("1) Bangalore\n2) Hyderabad\n3) Chennai\n4) Pune\n5) Mumbai\n6) Dalhi\n7) Ahmedabad ");
+		
+		System.out.print("From: ");
+	    String from=sc.nextLine();
+		switch(from)
+		{
+			case "1":from="Bangalore"; break;
+			case "2":from="Hyderabad" ; break;
+			case "3":from="Chennai" ; break;
+			case "4":from="Pune" ; break;
+			case "5":from="Mumbai" ; break;
+			case "6":from="Dalhi" ; break;
+			case "7":from="Dalhi" ; break;
+			default:from=from;
+		}
+		return from;
+	}
+	 String to()
+	 {
+		System.out.println("\n// POPULAR DESTINATIONS FROM "+from+" // \n");
+		System.out.println("1) Nashik\n2) Mumbai\n3) Visakhapatnam\n4) Jamnagar\n5) Udaipur\n6) Dalhi\n7) Rajkot ");
+		
+		System.out.print("To: ");
+	    String to=sc.nextLine();
+		System.out.println();
+		switch(to)
+		{
+			case "1":to="Nashik"; break;
+			case "2":to="Mumbai" ; break;
+			case "3":to="Visakhapatnam" ; break;
+			case "4":to="Jamnagar" ; break;
+			case "5":to="Udaipur" ; break;
+			case "6":to="Dalhi" ; break;
+			case "7":to="Rajkot" ; break;
+			default:to=to;
+		}
+		 return to;
+	 }
+	 void dateDay(String f,String t,String name)
+	 {  
+		 int i=1;
+		System.out.println("Choose Date Of Journey \n");
+
+        System.out.println("M  T  W  T  F  S  S");
+
+     	while(i<=31) {
+		if(i<10)
+		System.out.print(i+"  ");
+	    else
+		System.out.print(i+" ");
+		i++;
+		if(i==8||i==15||i==22||i==29){
+		System.out.println();
+		}}
+		
+		int d,p=1;
+		do{
+			if(p>1)
+	    System.out.println("Invalid input, Re-enter date.");
+		System.out.print("\nDate:");
+		 d=sc.nextInt();
+		 p++;
+		}
+		while(d<1||d>31);
+		
+		System.out.println();
+		System.out.println("Choose Month Of Journey \n");
+
+        System.out.println("1.January    5.May      9.September ");
+		System.out.println("2.February   6.June     10.October  ");
+		System.out.println("3.March      7.July     11.November ");
+		System.out.println("4.April      8.August   12.December ");
+		
+	    int m1,q=1;
+		do{
+			if(q>1)
+		System.out.println("Invalid input, Re-enter date.");
+		System.out.print("\nMonth:");		
+			m1=sc.nextInt();
+			q++;
+		}while(m1<1||m1>31);
+		
+		if((d==31&&m1==2)||(d==31&&m1==4)||(d==31&&m1==4)||(d==31&&m1==9)||(d==31&&m1==11)||(d==30&&m1==2))
+		{
+			System.out.println("\nNot allowed...Please check date and month.");
+			dateDay(f,t,name);
+		} 
+		 
+		 else 
+		 {
+		
+		Book B1=new Book(from,to,d,m);
+		B1.book(f,t,m1,name);
+		 }
+		 
+	}
+	
+    void book(String f,String t,int m1,String name)
+	{
+		String m=Integer.toString(m1);
+		 switch(m)
+		 {
+		case "1":m="January"; break;     case "2":m="February" ; break;     case "3":m="March" ; break; 
+		case "4":m="April" ; break;      case "5":m="May" ; break;          case "6":m="June" ; break; 
+		case "7":m="July" ; break;       case "8":m="August" ; break;       case "9":m="September"; break; 
+		case "10":m="October"; break;    case "11":m="November" ; break;    case "12":m="December";   break;
+		default : m=m; break;
+		 }
+		System.out.println("Select the travellers.\n");
+		System.out.println("_________________________________________________\n");
+		
+		System.out.println("[A]          * GUJRAT TRAVELS *          4.2*");
+		System.out.println("From "+f+" To "+t+": ");
+		System.out.println(d+" "+m+"                  -22 seats available");
+		System.out.println("Time:-05:15-09:35                      4h 20m");
+		System.out.println("AC Sleeper");
+		System.out.println("On time                                  500/-\n");
+		
+		System.out.println("_________________________________________________\n");
+		System.out.println("[B]         * RAJDHANI TRAVELS *         4.7*");
+		System.out.println("From "+f+" To "+t+": ");
+	    System.out.println(d+" "+m+"                  -18 seats available");
+		System.out.println("Time:-11:00-14:45                      3h 45m");
+		System.out.println("AC Sleeper/Seater");
+		System.out.println("On time                                  560/-\n");
+		
+		System.out.println("_________________________________________________\n");
+		System.out.println("[C]      * SHRINATH TRAVEL AGENCY *      3.9*");
+		System.out.println("From "+f+" To "+t+": ");
+		System.out.println(d+" "+m+"                  -32 seats available");
+		System.out.println("Time:-18:00-23:10                      5h 10m");
+		System.out.println("Non A/C Sleeper");
+		System.out.println("15 min delay                             470/-\n");
+		System.out.println("_________________________________________________\n");
+
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Choose one of this.");
+		char ch=sc.next().charAt(0);
+		
+		if((ch=='A')||(ch=='a')||(ch=='B')||(ch=='b')||(ch=='C')||(ch=='c'))
+		{
+			bus(f,t,ch,m,name);	
+		}
+		else
+		System.out.println("Not available.");
+	}
+	
+	 void bus(String f,String t,char ch,String m,String name)
+{
+	
+	int i,j,k=2,a=1;
+		
+		System.out.println("\nBook Your seat.\n");
+		System.out.println("                    ___");
+		System.out.println("                   | D |\n\n");
+		
+		for(i=1; i<=10;i++)
+		{
+		System.out.print("    ");	
+		if(k%2!=0)
+		{
+			for(j=1;j<=2;j++)
+			{
+			if(a<=9)
+			{
+				if(a==2) 
+				{System.out.print("| "+"* "); a++;}  
+			else 
+			{System.out.print("|  "+a); a++;  }	}
+			else
+			{
+			if(a==11||a==16||a==31||a==32||a==42)
+			{System.out.print("| "+"* "); a++;  }
+			else
+			{System.out.print("| "+a); a++;}  }
+			}
+			System.out.print("|   |");	
+			
+			for(j=1;j<4;j++)
+			{
+			if(a<=9)
+			{if(a==5||a==9)
+			{System.out.print(" "+"* "+"|"); a++;  }	
+			else
+			{	System.out.print("  "+a+"|"); a++;}  }	
+			else
+			{if(a==14||a==20||a==23||a==24||a==34||a==38||a==40||a==45)
+			{System.out.print(" "+"* "+"|"); a++;  }
+		    else
+			{System.out.print(" "+a+"|"); a++;}  }
+			}
+			System.out.println();
+			k++;	
+			System.out.print("    ");
+		}
+			if((k%2==0)&&(k!=20))
+			{
+				for(j=1;j<3;j++)
+			{  System.out.print(" ___"); 	}
+				for(j=1;j<3;j++)
+			{  System.out.print("  "); 	}
+				for(j=1;j<4;j++)
+			{  System.out.print(" ___"); 	}
+				System.out.println();
+			}
+				k++;  
+		}
+	
+	 Scanner sc=new Scanner(System.in);
+		System.out.print("\nEnter number of seat.");
+		int n=sc.nextInt();
+		
+		if(n==2||n==5||n==9||n==11||n==16||n==31||n==32||n==42||n==14||n==20||n==23||n==24||n==34||n==38||n==40||n==45)
+		{
+			System.out.println("\nThis seat was already booked.\nPlease select any other seat.");
+			bus(f,t,ch,m,name);
+		}
+		else {
+			int l=2, b=1;
+		System.out.println("                    ___");
+		System.out.println("                   | D |\n\n");
+		
+		for(i=1; i<=10;i++)
+		{
+		System.out.print("    ");	
+		if(l%2!=0)
+		 {
+			for(j=1;j<=2;j++)
+			{
+			if(b<=9)
+			{if(n==b||b==2) 
+				{System.out.print("| "+"* "); b++;}  
+			else 
+			{ System.out.print("|  "+b); b++;}	
+			}else{ if(n==b||b==11||b==16||b==31||b==32||b==42)
+			{System.out.print("| "+"* "); b++;  }
+			else
+				{System.out.print("| "+b); b++;  }
+			}}
+			System.out.print("|   |");	
+			
+			for(j=1;j<4;j++)
+			{
+			if(b<=9){if(n==b||b==5||b==9)
+			{System.out.print(" "+"* "+"|"); b++;  }	
+			else
+			{System.out.print("  "+b+"|"); b++;  }
+			}
+			else{if(n==b||b==14||b==20||b==23||b==24||b==34||b==38||b==40||b==45)
+			{System.out.print(" "+"* "+"|"); b++;  }
+		    else{System.out.print(" "+b+"|"); b++;  }
+			}}
+			System.out.println();
+			l++;	
+			System.out.print("    ");
+		 }
+			if((l%2==0)&&(l!=20))
+			{
+				for(j=1;j<3;j++)
+			{  System.out.print(" ___"); 	}
+				for(j=1;j<3;j++)
+			{  System.out.print("  "); 	}
+				for(j=1;j<4;j++)
+			{  System.out.print(" ___"); 	}
+				System.out.println();
+			}
+				l++;  
+		} 
+		System.out.println("\n Your seat no."+n+" book successfully.");
+	    }
+		print(n,f,t,ch,m,name);
+	} 
+	
+	void print(int n,String f,String t,char ch,String m,String name)
+	{
+		System.out.println("_______________________________________________________");
+		System.out.println("|                                                     |");
+		if(ch=='A'||ch=='a')
+		System.out.println("|                 * GUJRAT TRAVELS *                  ");
+	    else if(ch=='B'||ch=='b')
+		System.out.println("|                * RAJDHANI TRAVELS *                 ");
+	    else if(ch=='C'||ch=='c')
+		System.out.println("|              * SHRINATH TRAVEL AGENCY *             ");
+		System.out.println("|                                                     ");
+		System.out.println("|Name: "+name+"                                        ");
+	    System.out.println("|Journey Date: "+d+" "+m+" 2023                        ");
+		System.out.println("|Journey From: "+f+"             Journey To: "+t+"    ");
+		System.out.println("|Seat no: "+n+"                                           ");
+		if(ch=='A'||ch=='a')
+		System.out.println("|Total seat: "+1+"                   Total Amt: Rs."+500+" ");
+	    else if(ch=='B'||ch=='b')
+		System.out.println("|Total seat: "+1+"                   Total Amt: Rs."+560+" ");	    
+	    else if(ch=='C'||ch=='c')
+		System.out.println("|Total seat: "+1+"                   Total Amt: Rs."+470+" ");	
+		System.out.println("|_____________________________________________________|\n");
+	}
+}
