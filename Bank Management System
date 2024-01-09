@@ -1,0 +1,360 @@
+import java.util.*;
+class B2
+ {
+	Scanner sc=new Scanner(System.in);
+	public static void main(String[] args) 
+	{
+		int number = 0;
+        Scanner sc=new Scanner(System.in);
+		BankAccount ob[]=new BankAccount[5];
+		ob[0]=new BankAccount(10000,"shah khushi jayeshkumar","3abc",2000);
+		ob[1]=new BankAccount(20000,"vora rushita dineshbhai","4abc",3000);
+		ob[2]=new BankAccount(26000,"shah archi Bhavesh","5abc",2500);
+		ob[3]=new BankAccount(30000,"barad divyaraj indrasinh","6abc",40000);
+		ob[4]=new BankAccount(40000,"raval vansh jitendra bhai","7abc",4000);
+		B2 b=new B2();
+		char a1=b.start();
+		b.input(a1,ob);
+	}
+	void input(char a1,BankAccount ob[])
+	{
+		B2 c=new B2();
+		if((a1=='A')||(a1=='a'))
+		{
+			System.out.println("Enter your 'CustomerId' to access your Bank account:");
+			sc.nextLine();
+			String customerId=sc.next();
+			pass(customerId,ob,c);
+		}
+			
+		else if(a1=='B'||a1=='b')
+		{
+			System.out.print("Entre Your PIN : ");
+			String pin = sc.next();
+			
+			pass1(pin,ob,c);
+		}
+		else if(a1=='C'||a1=='c')
+		{
+			System.out.println("\n...THANK YOU...\n");
+		}
+		else
+		{
+			System.out.println("Enter valid input");
+		}
+	}
+	
+	char start()
+	{
+		System.out.println("\nWant to use Bank Account or ATM ?\nSelect your choice.\n");
+		System.out.println("A)Bank account \nB) ATM \nC)exit");
+		char op = sc.next().charAt(0);
+		return op;
+	}
+	void pass(String customerId,BankAccount ob[],B2 c)
+	{
+		int x=0;
+			for(int i=0;i<5;i++)
+			{
+				if(customerId.equals(ob[i].customerId))
+				{
+					x=1;
+					BankAccount obj1=new BankAccount(ob[i].bal,ob[i].customerName,ob[i].customerId,ob[i].prevTrans);
+					obj1.menu();
+					char a=c.start();
+					c.input(a,ob);
+				}
+			}
+			if(x==0)
+			{
+				System.out.println("Invalid user id \n Re-enter your user id");
+				String customerId1=sc.next();
+				pass(customerId1,ob,c);
+			}
+	}
+	void pass1(String pin,BankAccount ob[],B2 c)
+	{
+		int y=0;
+		for(int i=0;i<5;i++)
+			{
+				if(pin.equals(ob[i].customerId))
+				{
+					y=1;
+					ATM a = new ATM(ob[i].bal,ob[i].customerName,ob[i].customerId,ob[i].prevTrans);
+					a.set(pin);
+					a.instruction(pin);
+					a.process(pin);
+					char b=c.start();
+					c.input(b,ob);
+				}
+			}
+			if(y==0)
+			{
+				System.out.println("Invalid pin \n Re-enter pin");
+				String pin1 = sc.next();
+				pass1(pin1,ob,c);
+			}
+	}
+ }
+
+class ATM extends B2
+{
+	
+	String pin;
+	int count=1;
+	double balance,withbal;
+	String customerName;
+    String customerId;
+    double prevTrans;
+	ATM(double bal,String customerName,String customerId,double prevTrans)
+	{
+		this.customerName=customerName;
+		this.pin=customerId;
+		this.prevTrans=prevTrans;
+		this.balance=bal;
+	}
+	void set(String pin)
+	{					
+		System.out.println();
+		System.out.println( customerName + ", You are eligible to process");
+	}
+	
+	void instruction(String pin)
+	{
+		System.out.println();
+		System.out.println("1. Change the Password");
+		System.out.println("2. Cash Withdraw");
+		System.out.println("3. Cash Deposit");
+		System.out.println("4. Balance Inquiry");
+		System.out.println("5. Exit");
+		System.out.println();
+		
+	}
+	 void deposit(double amount){
+        if(amount!=0&&amount<50000)
+		{
+            balance+=amount;
+            prevTrans=amount;
+        }
+		else
+		{
+			System.out.println("Plz Enter valid Amount ,maximum 25000 Rs. only");
+		}
+    }
+
+    void withdraw(double amt)
+	{
+        if(amt!=0 && balance>=amt&&amt<25000)
+		{
+            balance-=amt;
+            prevTrans=-amt;
+        }
+        else if(balance<amt)
+		{
+            System.out.println("Bank balance insufficient");
+        }
+		else if(amt>25000)
+		{
+			System.out.println("maximum limit is 25000");
+		}
+		else
+		{
+			System.out.println(amt +" rupees has been debated");
+		}
+    }
+	
+	void process(String pin)
+	{
+		Scanner sc = new Scanner(System.in);
+		int number;
+		do
+		{
+		System.out.println("What would you like to do? Plz select the number.");
+		 number = sc.nextInt(); 
+		
+		switch (number)
+		{
+			case 1:
+			
+					System.out.println("ENTER 4 DIGIT + alphabetic PIN");
+					System.out.print("Enter your new PIN : ");
+					String newPin = sc.next();
+					System.out.print("Enter your Confirm PIN : ");
+					String conPin=sc.next();
+					if(newPin.equals(conPin))
+					{
+						System.out.print("Your PIN changed Successfully");
+						pin=conPin;
+					}
+					else
+					{
+						System.out.print("Your PIN not Matched.\nPlease Try Again.");
+					}
+			
+					break;
+		
+			case 2:
+			
+				System.out.println("......................");
+                System.out.println("Enter a amount to Withdraw :");
+                System.out.println("......................");
+                double amtW=sc.nextDouble();
+                withdraw(amtW);
+                System.out.println("\n");
+			
+				break;
+			
+			case 3:
+			
+				System.out.print(customerName+ ", You can deposit maximum 50000 Rs.\n......................");
+				System.out.println("\nEnter deposit amount : \n......................");
+				int diposit = sc.nextInt();
+				
+				if(diposit > 50000)
+				{
+					System.out.println("invalid!..,deposit Amount limit is maximum 50000 Rs. only ");
+				}
+				else
+				{
+					System.out.println("Plz Enter your deposit cash here.");
+					System.out.println("Your amount is added in your account.");
+					balance+=diposit;
+				}
+			
+			break;
+			
+			case 4:
+				System.out.println("You have "+balance+" Rs. in your account.");
+			break;
+	
+			case 5:
+			
+				System.out.println("......................");
+                break;
+			
+            default:
+			
+                System.out.println("Choose a correct option to proceed");
+			
+            break;
+		}
+	}while(number!=5);
+        System.out.println("Thank you for using our ATM banking services");	
+	}
+}
+
+class BankAccount extends B2
+{
+    String customerName;
+    String customerId;
+	double bal;
+    double prevTrans;
+	
+    BankAccount(double bal,String customerName,String customerId,double prevTrans)
+	{
+		this.bal=bal;
+        this.customerName=customerName;
+        this.customerId=customerId;
+		this.prevTrans=prevTrans;
+    }
+
+
+    void deposit(double amount)
+	{
+        if(amount!=0)
+		{
+            bal+=amount;
+            prevTrans=amount;
+        }
+    }
+
+    void withdraw(double amt){
+        if(amt!=0 && bal>=amt)
+		{
+            bal-=amt;
+            prevTrans=-amt;
+        }
+        else if(bal<amt){
+            System.out.println("Bank balance insufficient");
+        }
+    }
+
+    void getPreviousTrans(){
+        if(prevTrans>0)
+		{
+            System.out.println("Deposited: "+prevTrans);
+        }
+        else if(prevTrans<0)
+		{
+            System.out.println("Withdrawn: "+Math.abs(prevTrans));
+        }
+        else
+		{
+            System.out.println("No transaction occured");
+        }
+    }
+
+    void menu()
+	{
+        char option;
+        Scanner sc=new Scanner(System.in);
+        System.out.println("\nWelcome "+customerName);
+        System.out.println("Your ID: "+customerId);
+        //System.out.println("\n");
+        System.out.println("\na) Check Balance");
+        System.out.println("b) Deposit Amount");
+        System.out.println("c) Withdraw Amount");
+        System.out.println("d) Previous Transaction");
+        System.out.println("e) Exit");
+
+        do{
+            System.out.println("\n***********************\n");
+            System.out.print("Choose an option: ");
+            option=sc.next().charAt(0);
+            System.out.println();
+			System.out.println("\n***********************\n");
+
+            switch (option){
+                case 'a':
+                    System.out.println("......................");
+                    System.out.println("Balance =  "+bal);
+                    System.out.println("......................\n");
+                    System.out.println("\n");
+                    break;
+                case 'b':
+                    System.out.println("..........................");
+                    System.out.println("Enter a amount to deposit :");
+                    System.out.println("..........................\n");
+                    double amt=sc.nextDouble();
+                    deposit(amt);
+                   System.out.println("\n");
+                    break;
+                case 'c':
+                    System.out.println("...........................");
+                    System.out.println("Enter a amount to Withdraw :");
+                    System.out.println("...........................\n");
+                    double amtW=sc.nextDouble();
+                    withdraw(amtW);
+                    System.out.println("\n");
+                    break;
+                case 'd':
+                    System.out.println("......................");
+                    System.out.println("Previous Transaction:");
+                    getPreviousTrans();
+                    System.out.println("......................\n");
+                    System.out.println("\n");
+                    break;
+                case 'e':
+                   System.out.println("......................");
+					
+                    continue;
+					default:
+                    System.out.println("Choose a correct option to proceed.");
+					break;
+            }
+        }
+		while(option!='e');
+        System.out.println("\nThank you for using our Banking services.");
+		System.out.println("...........................................");
+    }
+}
